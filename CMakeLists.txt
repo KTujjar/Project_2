@@ -14,4 +14,5 @@ target_link_libraries(MyProgram PRIVATE glm::glm)
 target_sources(MyProgram
     PRIVATE
         src/app/main.cpp
+        src/physics/nbody.cpp
 )

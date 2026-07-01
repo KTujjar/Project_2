@@ -1,3 +1,5 @@
 build/
 # macOS Finder metadata
 .DS_Store
+# clangd index cache
+.cache/
