@@ -23,7 +23,12 @@ Window::Window(int width, int height, const char* title){
         glfwTerminate();
         throw std::runtime_error("gladLoadGL failed");
     }
-    glViewport(0,0,width,height);
+    // The viewport is in framebuffer PIXELS, not window points — on Retina
+    // displays the framebuffer is 2x the window size, so query it rather
+    // than assuming it matches width/height.
+    int fb_width, fb_height;
+    glfwGetFramebufferSize(handle, &fb_width, &fb_height);
+    glViewport(0, 0, fb_width, fb_height);
 
     // Register `this` with GLFW so the static callbacks can find the object,
     // then hook resize (keeps viewport + aspect correct) and scroll (zoom).

@@ -8,6 +8,10 @@ points colored by speed — cold blue when slow, hot yellow when fast.
 Built as a C++ learning project: the physics core, window/GL plumbing, and
 render pipeline are hand-written with no engine.
 
+| Initial collapse | Steady state |
+|---|---|
+| ![Particle cloud collapsing under gravity](docs/spawn.gif) | ![Particles orbiting in steady state](docs/activity.gif) |
+
 ## Controls
 
 | Input | Action |
