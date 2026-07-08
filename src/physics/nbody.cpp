@@ -1,4 +1,5 @@
 #include <common/particle.h>
+#include <cmath>
 
 void initialize_particles(std::vector<Particle>& particles, int count, unsigned int seed){
     //resizes particle vector to match count
@@ -24,9 +25,12 @@ std::vector<glm::vec3>& accelerations){
         for(size_t j = 0; j < particles.size(); ++j){
             if(i == j) continue;
             glm::vec3 direction = particles[j].position - particles[i].position;
-            float distance = glm::length(direction);
-            float magnitude = G * particles[j].mass / (glm::dot(distance,distance) + (SOFTENING * SOFTENING));
-            accelerations[i] += magnitude * glm::normalize(direction);
+            // Plummer force: G*m*d / (r^2 + eps^2)^(3/2). One sqrt per pair
+            // (was two: length + normalize), and exactly the gradient of the
+            // softened potential used in total_energy().
+            float r2 = glm::dot(direction, direction) + SOFTENING * SOFTENING;
+            float inv_r = 1.0f / std::sqrt(r2);
+            accelerations[i] += (G * particles[j].mass * inv_r * inv_r * inv_r) * direction;
         }
     }
 }

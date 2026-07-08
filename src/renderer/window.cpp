@@ -25,6 +25,11 @@ Window::Window(int width, int height, const char* title){
     }
     glViewport(0,0,width,height);
 
+    // Register `this` with GLFW so the static callbacks can find the object,
+    // then hook resize (keeps viewport + aspect correct) and scroll (zoom).
+    glfwSetWindowUserPointer(handle, this);
+    glfwSetFramebufferSizeCallback(handle, on_resize);
+    glfwSetScrollCallback(handle, on_scroll);
 }
 
 // Destroy the window and shut GLFW down (glfwDestroyWindow + glfwTerminate).
@@ -44,4 +49,30 @@ bool Window::should_close() const{
 void Window::swap_and_poll(){
     glfwSwapBuffers(handle);
     glfwPollEvents();
+}
+
+GLFWwindow* Window::native() const{
+    return handle;
+}
+
+float Window::aspect() const{
+    return (float)width / (float)height;
+}
+
+float Window::take_scroll(){
+    float s = (float)scroll;
+    scroll = 0.0;
+    return s;
+}
+
+void Window::on_resize(GLFWwindow* win, int w, int h){
+    Window* self = (Window*)glfwGetWindowUserPointer(win);
+    self->width = w;
+    self->height = h;
+    glViewport(0, 0, w, h);
+}
+
+void Window::on_scroll(GLFWwindow* win, double /*dx*/, double dy){
+    Window* self = (Window*)glfwGetWindowUserPointer(win);
+    self->scroll += dy;
 }
