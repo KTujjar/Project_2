@@ -1,3 +1,5 @@
+#pragma once
+
 /*
 At minimum each particle needs:
 - position (3D)
