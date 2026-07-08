@@ -10,7 +10,7 @@ render pipeline are hand-written with no engine.
 
 | Initial collapse | Steady state |
 |---|---|
-| ![Particle cloud collapsing under gravity](docs/spawn.gif) | ![Particles orbiting in steady state](docs/activity.gif) |
+| ![Particle cloud collapsing under gravity](docs/particle-spawn.gif) | ![Particles orbiting in steady state](docs/activity.gif) |
 
 ## Controls
 
